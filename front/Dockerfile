@@ -20,12 +20,7 @@ EXPOSE 5173
 
 COPY package.json .
 COPY vite.config.ts .
-COPY vitest.config.ts .
-COPY tsconfig.json .
-COPY tsconfig.node.json .
 
-RUN npm install @types/jest
 RUN npm install typescript
-RUN npm install jest
 
 CMD ["npm", "run", "preview"]
