@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-
+      
 env:
   AZURE_REGISTRY: recipelab.azurecr.io
   AZURE_WEBAPP_NAME: recipeExpressApp
