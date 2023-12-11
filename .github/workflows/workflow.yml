@@ -1,0 +1,39 @@
+# File: .github/workflows/docker-compose-deploy.yml
+name: Docker Compose Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AZURE_REGISTRY: recipelab.azurecr.io
+  AZURE_WEBAPP_NAME: recipeExpressApp
+  DOCKER_COMPOSE_PATH: './compose.yaml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.AZURE_REGISTRY }}
+          username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+
+      - name: Build and Push Docker Images
+        run: |
+          docker-compose -f ${{ env.DOCKER_COMPOSE_PATH }} build
+          docker-compose -f ${{ env.DOCKER_COMPOSE_PATH }} push
+
+      - name: Deploy to Azure Web App for Containers
+        uses: azure/webapps-container-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          images: ${{ env.AZURE_REGISTRY }}/your-container-name:latest
+          multi-container-config-file: ${{ env.DOCKER_COMPOSE_PATH }}
