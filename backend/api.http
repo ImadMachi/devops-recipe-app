@@ -1,0 +1,41 @@
+POST http://localhost:3000/signup HTTP/1.1
+content-type: application/json
+
+{
+    "name": "ahmed",
+    "email": "ahmed@gmail.com",
+    "password": "123456"
+}
+
+###
+
+POST http://localhost:3000/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "ahmed@gmail.com",
+    "password": "123456"
+}
+
+###
+
+GET http://localhost:3000/profile/ahmed@gmail.com
+content-type: application/json
+
+
+###
+
+PUT http://localhost:3000/profile/ahmed@gmail.com
+content-type: application/json
+
+{
+    "name": "ahmed",
+    "email": "ahmed@gmail.com",
+    "password": "123456"
+}
+
+###
+
+GET http://localhost:3000/recipes?searchTerm=chicken
+content-type: application/json
+
